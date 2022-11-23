@@ -16,7 +16,7 @@ function App() {
           <Route path="/search" element={<DomainSearch />} />
         </Routes>
       </body>
-      <Footer />
+      {/* <Footer /> */}
     </DataContext.Provider>
   );
 }
