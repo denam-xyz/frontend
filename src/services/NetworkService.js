@@ -1,4 +1,4 @@
-const serverAddress = "https://backend-s9tj.onrender.com/";
+const serverAddress = "http://localhost:3000/" || "https://www.denam.xyz/";
 if (process.env.REACT_APP_API_URL) {
   serverAddress = process.env.REACT_APP_API_URL;
 }
