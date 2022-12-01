@@ -15,6 +15,11 @@ const fetchHttpLink = (item) => {
   }
 };
 
+//Varje gång ett api är färdigt så pusha upp
+//gör ett promise api call för varje backend call
+// let promise 1 = new Promise (backend.apiCall('searchText') ).then((result) => { list.push(result) })
+//promise.all([promise1, promise2, promise3])
+
 const Table = ({ tableData }) => {
   const renderRows = () => {
     let rows = [];
