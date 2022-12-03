@@ -1,9 +1,37 @@
 import NetworkService from "./NetworkService";
 
 const SearchService = {
-  getSearch: function (search, session) {
+  getUnstoppableDomain: function (search, session) {
     return NetworkService.getResourceWithAuth(
       "v1/unstoppableDomains/search/" + search,
+      session
+    );
+  },
+
+  getAptos: function (search, session) {
+    return NetworkService.getResourceWithAuth(
+      "v1/aptos/search/" + search,
+      session
+    );
+  },
+
+  getBlockstacks: function (search, session) {
+    return NetworkService.getResourceWithAuth(
+      "v1/blockstacks/search/" + search,
+      session
+    );
+  },
+
+  getEns: function (search, session) {
+    return NetworkService.getResourceWithAuth(
+      "v1/ens/search/" + search,
+      session
+    );
+  },
+
+  getSid: function (search, session) {
+    return NetworkService.getResourceWithAuth(
+      "v1/sid/search/" + search,
       session
     );
   },

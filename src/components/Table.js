@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import SearchService from "../services/SearchService";
 
 const fetchHttpLink = (item) => {
   switch (item.protocol) {
@@ -20,7 +21,31 @@ const fetchHttpLink = (item) => {
 // let promise 1 = new Promise (backend.apiCall('searchText') ).then((result) => { list.push(result) })
 //promise.all([promise1, promise2, promise3])
 
-const Table = ({ tableData }) => {
+const Table = ({ searchInput }) => {
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    console.log(searchInput, "SEARCHINPUT");
+    async function fetchData() {
+      console.log("INSIDE FETCHDATA IN TABLE");
+      try {
+        let promises = [];
+        promises.push(SearchService.getUnstoppableDomain(searchInput));
+        promises.push(SearchService.getAptos(searchInput));
+        promises.push(SearchService.getBlockstacks(searchInput));
+        promises.push(SearchService.getEns(searchInput));
+        promises.push(SearchService.getSid(searchInput));
+
+        Promise.all(promises).then((stuff) => {
+          console.log(stuff, "STUFF CONSOLLED LOGGED");
+        });
+      } catch (err) {
+        console.log(err, "error occurred getting search/table data");
+      }
+    }
+    fetchData();
+  }, [searchInput]);
+
   const renderRows = () => {
     let rows = [];
     if (tableData && tableData.length > 0) {

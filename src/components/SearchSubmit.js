@@ -9,12 +9,12 @@ const SearchSubmit = ({ home, initialValue }) => {
   const [loading, setLoading] = useState(false);
 
   const handleSearchClick = async () => {
-    let data = await fetchSearchData();
-    if (data) {
-      navigate("/search", {
-        state: { searchInput: searchInput, tableData: data },
-      });
-    }
+    //let data = await fetchSearchData();
+    //if (data) {
+    navigate("/search", {
+      state: { searchInput: searchInput, tableData: [] },
+    });
+    // }
   };
   const fetchSearchData = async () => {
     try {

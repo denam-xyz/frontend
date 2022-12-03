@@ -23,7 +23,7 @@ export default function DomainSearch({ route }) {
       <div className="h-screen flex ">
         <div className="grow space-y-10 self-start">
           <SearchSubmit initialValue={searchInput} />
-          <Table tableData={tableData} />
+          <Table searchInput={searchInput} tableData={tableData} />
         </div>
       </div>
     </div>
