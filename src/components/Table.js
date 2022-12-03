@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import SearchService from "../services/SearchService";
 
 const fetchHttpLink = (item) => {
   switch (item.protocol) {
@@ -15,14 +16,63 @@ const fetchHttpLink = (item) => {
   }
 };
 
-const Table = ({ tableData }) => {
+const Table = ({ searchInput }) => {
+  const [tableData, setTableData] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let promises = [];
+        //TODO: setLoading(true)
+
+        promises.push(
+          SearchService.getUnstoppableDomain(searchInput).then((result) => {
+            //Update state after each api fetch to reflect new loadings
+            setTableData((current) => [...current, ...result]);
+          })
+        );
+        promises.push(
+          SearchService.getAptos(searchInput).then((result) => {
+            setTableData((current) => [...current, result]);
+          })
+        );
+        promises.push(
+          SearchService.getBlockstacks(searchInput).then((result) => {
+            setTableData((current) => [...current, ...result]);
+          })
+        );
+        promises.push(
+          SearchService.getEns(searchInput).then((result) => {
+            setTableData((current) => [...current, result]);
+          })
+        );
+        promises.push(
+          SearchService.getSid(searchInput).then((result) => {
+            setTableData((current) => [...current, result]);
+          })
+        );
+
+        Promise.all(promises).then((values) => {
+          //This is when all promises are finished loading
+          //TODO: setLoading(false)
+        });
+      } catch (err) {
+        //TODO: setLoading(false)
+        console.log(err, "error occurred getting search/table data");
+      }
+    }
+    fetchData();
+  }, [searchInput]);
+
   const renderRows = () => {
     let rows = [];
     if (tableData && tableData.length > 0) {
       rows = tableData.map((item, index) => {
         let domainName = item.domain.split(".");
         return (
-          <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <tr
+            key={index}
+            className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+          >
             <th
               scope="row"
               className="py-6 pl-6 text-gray-900 whitespace-nowrap dark:text-white"

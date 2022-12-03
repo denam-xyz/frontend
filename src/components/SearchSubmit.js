@@ -5,28 +5,12 @@ import SearchService from "../services/SearchService";
 const SearchSubmit = ({ home, initialValue }) => {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState(initialValue);
-  const [domainSearchData, setDomainSearchData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleSearchClick = async () => {
-    let data = await fetchSearchData();
-    if (data) {
-      navigate("/search", {
-        state: { searchInput: searchInput, tableData: data },
-      });
-    }
-  };
-  const fetchSearchData = async () => {
-    try {
-      setLoading(true);
-      let responseData = await SearchService.getSearch(searchInput, 0);
-      setDomainSearchData(responseData);
-      setLoading(false);
-      return responseData;
-    } catch (err) {
-      console.log(err, "error occurred getting searchDomain()");
-      return null;
-    }
+    navigate("/search", {
+      state: { searchInput: searchInput },
+    });
   };
 
   const handleSearchChange = async (e) => {
