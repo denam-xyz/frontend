@@ -16,30 +16,47 @@ const fetchHttpLink = (item) => {
   }
 };
 
-//Varje gång ett api är färdigt så pusha upp
-//gör ett promise api call för varje backend call
-// let promise 1 = new Promise (backend.apiCall('searchText') ).then((result) => { list.push(result) })
-//promise.all([promise1, promise2, promise3])
-
 const Table = ({ searchInput }) => {
   const [tableData, setTableData] = useState([]);
-
   useEffect(() => {
-    console.log(searchInput, "SEARCHINPUT");
     async function fetchData() {
-      console.log("INSIDE FETCHDATA IN TABLE");
       try {
         let promises = [];
-        promises.push(SearchService.getUnstoppableDomain(searchInput));
-        promises.push(SearchService.getAptos(searchInput));
-        promises.push(SearchService.getBlockstacks(searchInput));
-        promises.push(SearchService.getEns(searchInput));
-        promises.push(SearchService.getSid(searchInput));
+        //TODO: setLoading(true)
 
-        Promise.all(promises).then((stuff) => {
-          console.log(stuff, "STUFF CONSOLLED LOGGED");
+        promises.push(
+          SearchService.getUnstoppableDomain(searchInput).then((result) => {
+            //Update state after each api fetch to reflect new loadings
+            setTableData((current) => [...current, ...result]);
+          })
+        );
+        promises.push(
+          SearchService.getAptos(searchInput).then((result) => {
+            setTableData((current) => [...current, result]);
+          })
+        );
+        promises.push(
+          SearchService.getBlockstacks(searchInput).then((result) => {
+            setTableData((current) => [...current, ...result]);
+          })
+        );
+        promises.push(
+          SearchService.getEns(searchInput).then((result) => {
+            setTableData((current) => [...current, result]);
+          })
+        );
+        promises.push(
+          SearchService.getSid(searchInput).then((result) => {
+            setTableData((current) => [...current, result]);
+          })
+        );
+
+        Promise.all(promises).then((values) => {
+          //This is when all promises are finished loading
+          //TODO: setLoading(false)
         });
       } catch (err) {
+        //TODO: setLoading(false)
         console.log(err, "error occurred getting search/table data");
       }
     }
@@ -52,7 +69,10 @@ const Table = ({ searchInput }) => {
       rows = tableData.map((item, index) => {
         let domainName = item.domain.split(".");
         return (
-          <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <tr
+            key={index}
+            className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+          >
             <th
               scope="row"
               className="py-6 pl-6 text-gray-900 whitespace-nowrap dark:text-white"
