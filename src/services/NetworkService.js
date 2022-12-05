@@ -1,7 +1,7 @@
-const serverAddress = "https://backend-s9tj.onrender.com/";
-if (location.hostname === "localhost") {
-  serverAddress = "http://localhost:3000/";
-}
+let serverAddress;
+location.hostname === "localhost" ? 
+  serverAddress="http://localhost:3000/" : 
+  serverAddress="https://backend-s9tj.onrender.com/";
 if (process.env.REACT_APP_API_URL) {
   serverAddress = process.env.REACT_APP_API_URL;
 }
