@@ -1,10 +1,5 @@
-const {
-  children,
-  location: { pathname },
-} = this.props;
-
 let serverAddress;
-pathname === "localhost" ? 
+window.location.host === "localhost" ? 
   serverAddress="http://localhost:3000/" : 
   serverAddress="https://backend-s9tj.onrender.com/";
 if (process.env.REACT_APP_API_URL) {
