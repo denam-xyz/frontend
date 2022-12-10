@@ -24,30 +24,43 @@ const Table = ({ searchInput }) => {
         let promises = [];
         //TODO: setLoading(true)
 
+        // Set tableData to an empty array
+        setTableData([]);
+
         promises.push(
           SearchService.getUnstoppableDomain(searchInput).then((result) => {
-            //Update state after each api fetch to reflect new loadings
+            // Convert result to an array if it is not already one
+            result = Array.isArray(result) ? result : [result];
+            // Append result to the current tableData
             setTableData((current) => [...current, ...result]);
           })
         );
         promises.push(
           SearchService.getAptos(searchInput).then((result) => {
-            setTableData((current) => [...current, result]);
+            result = Array.isArray(result) ? result : [result];
+            // Append result to the current tableData
+            setTableData((current) => [...current, ...result]);
           })
         );
         promises.push(
           SearchService.getBlockstacks(searchInput).then((result) => {
+            result = Array.isArray(result) ? result : [result];
+            // Append result to the current tableData
             setTableData((current) => [...current, ...result]);
           })
         );
         promises.push(
           SearchService.getEns(searchInput).then((result) => {
-            setTableData((current) => [...current, result]);
+            result = Array.isArray(result) ? result : [result];
+            // Append result to the current tableData
+            setTableData((current) => [...current, ...result]);
           })
         );
         promises.push(
           SearchService.getSid(searchInput).then((result) => {
-            setTableData((current) => [...current, result]);
+            result = Array.isArray(result) ? result : [result];
+            // Append result to the current tableData
+            setTableData((current) => [...current, ...result]);
           })
         );
 
